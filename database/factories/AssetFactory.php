@@ -21,7 +21,7 @@ $factory->define(Asset::class, function (Faker $faker) {
     return [
         'user_id' => $faker->numberBetween(1,51),
         'label' => $faker->randomElement(['USB','WALLET','CASH','FRIEND','EXTERNALHDD']),
-        'currency_code' => $faker->randomElement(['BTC', 'EUR', 'IOTA', 'ETH', 'XRP', 'LTL']),
+        'currency_code' => $faker->randomElement(['TUBE', 'BTC3S', 'PEN', 'LIBER', 'FOLK', 'RED']),
         'value' => $faker->randomFloat(3,1,100000),
     ];
 });
