@@ -15,3 +15,11 @@ composer-install:
 
 up:
 	docker-compose up
+
+ssh:
+	docker exec -it cybernews-app /bin/bash
+
+stop:
+	docker-compose down
+
+
