@@ -18,7 +18,7 @@ class CreateAssetsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('label');
             $table->string('currency_code');
-            $table->unsignedDecimal('value');
+            $table->unsignedDecimal('value',13,4);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

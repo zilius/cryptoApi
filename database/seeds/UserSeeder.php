@@ -12,7 +12,9 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\User::class, 50)->create();
-        factory(App\Asset::class, 100000)->create();
+        factory(App\User::class, 10)->create();
+
+        //This seeds with multiple labels with same currencies
+//        factory(App\Asset::class, 100000)->create();
     }
 }
