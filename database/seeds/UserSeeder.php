@@ -14,6 +14,16 @@ class UserSeeder extends Seeder
     {
         factory(App\User::class, 10)->create();
 
+        //Debug user
+        $user = new \App\User();
+        $user->name = 'debug';
+        $user->email = 'debug@debug.com';
+        $user->email_verified_at = now();
+        $user->password = 'debug';
+        $user->api_token = 'debug';
+        $user->remember_token = 'debug';
+        $user->save();
+
         //This seeds with multiple labels with same currencies
 //        factory(App\Asset::class, 100000)->create();
     }
