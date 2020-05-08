@@ -6,7 +6,5 @@ namespace App\Domain\Interfaces;
 
 interface ClientInterface
 {
-    public function get(string $path, array $params);
-
-    public function post(string $path, array $params);
+    public function get(string $path, array $params) : array ;
 }

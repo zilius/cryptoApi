@@ -19,9 +19,9 @@ use Faker\Generator as Faker;
 
 $factory->define(Asset::class, function (Faker $faker) {
     return [
-        'user_id' => $faker->numberBetween(1,51),
+        'user_id' => $faker->numberBetween(1,50),
         'label' => $faker->randomElement(['USB','WALLET','CASH','FRIEND','EXTERNALHDD']),
-        'currency_code' => $faker->randomElement(['TUBE', 'BTC3S', 'PEN', 'LIBER', 'FOLK', 'RED']),
-        'value' => $faker->randomFloat(3,1,100000),
+        'currency_code' => $faker->randomElement(['ETH','BTC','XRP']),
+        'value' => $faker->randomFloat(8,0.003,1000),
     ];
 });

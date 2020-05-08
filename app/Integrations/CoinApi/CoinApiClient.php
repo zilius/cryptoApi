@@ -26,13 +26,15 @@ class CoinApiClient implements ClientInterface
         $this->apiUrl = $apiUrl;
     }
 
-    public function get(string $path, array $params = [])
+    public function get(string $path, array $params = []): array
     {
-        // TODO: Implement get() method.
+        $response = $this->client->request('GET',
+            $this->apiUrl . $path,
+            ['headers' => ['X-CoinAPI-Key' => $this->apiKey]]);
+
+        if ($response->getStatusCode() === 200) {
+            return \GuzzleHttp\json_decode($response->getBody(), true);
+        }
     }
 
-    public function post(string $path, array $params = [])
-    {
-        // TODO: Implement post() method.
-    }
 }

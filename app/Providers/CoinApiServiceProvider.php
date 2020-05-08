@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Integrations\CoinApi\CoinApiClient;
 use App\Integrations\CoinApi\CoinApiService;
+use Config;
 use Illuminate\Support\ServiceProvider;
 
 class CoinApiServiceProvider extends ServiceProvider
@@ -20,8 +21,8 @@ class CoinApiServiceProvider extends ServiceProvider
         $this->app->singleton(CoinApiService::class, function ($app) {
             return new CoinApiService(
                 new CoinApiClient(
-                    '1',
-                    '1'
+                    Config::get('integrations.coin_api.key'),
+                    Config::get('integrations.coin_api.url')
                 )
             );
         });

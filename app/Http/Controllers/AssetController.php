@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Asset;
 use App\Integrations\CoinApi\CoinApiService;
+use Illuminate\Database\Eloquent\Collection;
 
 class AssetController extends Controller
 {
@@ -21,12 +22,68 @@ class AssetController extends Controller
         $this->service = $coinApiServiceProvider;
     }
 
-    public function getAssetsValue(string $currency = 'USD')
+    /**
+     * @return array
+     */
+    public function getAssetsValue() : array
     {
-        $assets = Asset::where('user_id',5)->get();
+        $user = request()->user();
+        $userAssets = $user->assets()->get(['label', 'currency_code', 'value']);
+        $amountsByLabels = $this->getAmountsByLabels($userAssets);
+        $rates = $this->service->getExchangeRatesToUsd();
 
-        dd($assets);
+        return $this->getValuesInUsd($amountsByLabels, $rates);
+    }
 
-        $this->service->getExchangeRates();
+    /**
+     * @param Collection $collection
+     * @return array
+     */
+    private function getAmountsByLabels(Collection $collection): array
+    {
+        $result = [];
+
+        foreach ($collection as $asset) {
+
+            if (isset($result[$asset->label][$asset->currency_code]))
+            {
+                $result[$asset->label][$asset->currency_code] += $asset->value;
+            }
+            else
+            {
+                $result[$asset->label][$asset->currency_code] = $asset->value;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param array $amountsByLabels
+     * @param array $rates
+     * @return array
+     */
+    private function getValuesInUsd(array $amountsByLabels, array $rates): array
+    {
+        foreach ($amountsByLabels as $label => $currencies)
+        {
+            foreach ($currencies as $currency => $amount)
+            {
+
+                $amountInUsd = $amount * $rates[$currency]['rate'];
+                $amountsByLabels[$label][$currency] = $amountInUsd;
+
+                if (isset($amountsByLabels['TOTALS'][$currency]))
+                {
+                    $amountsByLabels['TOTALS'][$currency] += $amountInUsd;
+                }
+                else
+                {
+                    $amountsByLabels['TOTALS'][$currency] = $amountInUsd;
+                }
+            }
+        }
+
+        return $amountsByLabels;
     }
 }
