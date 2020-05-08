@@ -63,11 +63,15 @@ class AssetController extends Controller
             return implode(' ', config('currencies.supported_currencies')) . " are supported";
         }
 
+        if ($value === null) {
+            return "Value is not set";
+        }
+
         if ($value < 0) {
             return "Value must be positive";
         }
 
-        $exist = Asset::where('user_id', $user->id)->where('label', $label)->where('currency_code',$currency_code)->first();
+        $exist = Asset::where('user_id', $user->id)->where('label', $label)->where('currency_code', $currency_code)->first();
         if ($exist) {
             return "Asset with this label already exist, please use PUT if you want to deposit currency";
         }
@@ -117,6 +121,10 @@ class AssetController extends Controller
 
         if ($asset->value + $value < 0) {
             return "You dont have enough currency";
+        }
+
+        if ($value === null) {
+            return "Value is not set";
         }
 
         $asset->value = $asset->value + $value;
