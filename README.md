@@ -1,6 +1,5 @@
-# cybernews
+# CryptoApi
 
-`Currencies available: BTC, ETH, IOTA` - since CoinAPI do not support IOTA, I changed it to `XRP`.
 
 <h3>Prerequisites</h3>
 
