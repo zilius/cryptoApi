@@ -1,5 +1,6 @@
 # CryptoApi
 
+Crypto to USD converter api sandbox
 
 <h3>Prerequisites</h3>
 
